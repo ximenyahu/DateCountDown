@@ -2,6 +2,7 @@ package com.simon.datecountdown;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -15,7 +16,7 @@ import java.util.Date;
 public class MainActivity extends AppCompatActivity {
 
     private TextView mTvTimeCountDown;
-    private Date mFinalDate;
+    private Date mOriginDate;
     private SimpleDateFormat mSimpleDateFormat;
     private MediaPlayer mMediaPlayer;
 
@@ -27,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         mSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
             //这里设置的时2019-11-29，可以根据需要更改
-            mFinalDate = mSimpleDateFormat.parse("2019-11-29 00:00:00");
+            mOriginDate = mSimpleDateFormat.parse("2019-10-06 14:42:00");
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -43,12 +44,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        final long finalTimeInMIlls = mFinalDate.getTime();
-        if (Calendar.getInstance().getTimeInMillis() < finalTimeInMIlls) {
-            new CountDownTimer(finalTimeInMIlls - (new Date().getTime()), 1000) {
+        final long originTimeInMIlls = mOriginDate.getTime();
+        if (Calendar.getInstance().getTimeInMillis() > originTimeInMIlls) {
+            new CountDownTimer(Integer.MAX_VALUE, 1000) {
+                @SuppressLint("DefaultLocale")
                 @Override
                 public void onTick(long millisUntilFinished) {
-                    long durationInMills = (finalTimeInMIlls - new Date().getTime()) / 1000;
+                    long durationInMills = (new Date().getTime() - originTimeInMIlls) / 1000;
                     int durationDays = (int) (durationInMills / (60 * 60 * 24));
                     int temp = (int) (durationInMills % (60 * 60 * 24));
                     int durationHours = temp / (60 * 60);

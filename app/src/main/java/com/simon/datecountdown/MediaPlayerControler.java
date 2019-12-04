@@ -12,7 +12,7 @@ public class MediaPlayerControler {
 
     public static MediaPlayer getInstance(Context context) {
         if (sMediaPlayer == null) {
-            sMediaPlayer = MediaPlayer.create(context, R.raw.canon);
+            sMediaPlayer = MediaPlayer.create(context, R.raw.summer);
         }
         return sMediaPlayer;
     }
